@@ -25,6 +25,7 @@ from core.recorder import Recorder
 from core.engine import Engine
 from core.dashboard import DashboardService
 from core.cli import CLI
+from core.adaptation_manager import AdaptationManager
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,7 @@ class TerraFinAgent:
         self._night_mode: Any = None
         self._dashboard: DashboardService | None = None
         self._engine: Engine | None = None
+        self._adaptation_manager: AdaptationManager | None = None
         self._cli: CLI | None = None
         self._running = False
 
@@ -152,6 +154,9 @@ class TerraFinAgent:
         if self._dashboard is not None:
             self._dashboard.start()
 
+        # 7. Adaptation manager
+        self._adaptation_manager = AdaptationManager()
+
         self._running = True
         logger.info("TerraFinAgent started successfully")
 
@@ -187,6 +192,7 @@ class TerraFinAgent:
             engine=self._engine,  # type: ignore[arg-type]
             recorder=self._recorder,
             harvest_modules=self._harvest_modules,
+            adaptation_manager=self._adaptation_manager,
         )
         try:
             self._cli.start()
@@ -233,6 +239,7 @@ class TerraFinAgent:
             "harvest_modules": list(self._harvest_modules.keys()),
             "night_mode": self._night_mode is not None,
             "dashboard": self._dashboard is not None,
+            "adaptation_modules": len(self._adaptation_manager.module_names) if self._adaptation_manager else 0,
             "timestamp": utc_now(),
         }
 

@@ -45,6 +45,12 @@ Commands:
   night        - Show night mode events (from recorder)
   health       - Show sensor health
   summary      - Show full sensor summary
+  adapt        - Show all adaptation advisories
+  adapt weather - Show weather adaptation advisories
+  adapt soil    - Show soil adaptation advisories
+  adapt animal - Show animal adaptation advisories
+  adapt insect - Show insect adaptation advisories
+  warnings     - Show only warning/critical advisories
   help         - Show this help
   quit         - Exit the agent
 """
@@ -58,10 +64,12 @@ class CLI:
         engine: Engine,
         recorder: Any = None,
         harvest_modules: dict[str, Any] | None = None,
+        adaptation_manager: Any = None,
     ) -> None:
         self._engine = engine
         self._recorder = recorder
         self._harvest_modules = harvest_modules or {}
+        self._adaptation_manager = adaptation_manager
         self._running = False
 
     def start(self) -> None:
@@ -116,6 +124,10 @@ class CLI:
             self._handle_harvest(args)
         elif command == "night":
             self._handle_night_events()
+        elif command == "adapt":
+            self._handle_adapt(args)
+        elif command == "warnings":
+            self._handle_warnings()
         else:
             print(f"Unknown command: {command}. Type 'help' for available commands.")
 
@@ -179,3 +191,84 @@ class CLI:
             print(f"  [{ev['timestamp']}] {ev['event_type']}: {ev['description']}")
         if len(events) > 10:
             print(f"  ... and {len(events) - 10} more.")
+
+    def _handle_adapt(self, args: list[str]) -> None:
+        """Show adaptation advisories, optionally filtered by category."""
+        if self._adaptation_manager is None:
+            print("Adaptation manager not available.")
+            return
+
+        # Run all modules with current sensor data
+        summary = self._engine.get_summary()
+        # Extract the most recent reading for each sensor
+        reading = None
+        sensors = summary.get("sensors", {})
+        if sensors:
+            # Use the first available sensor reading
+            for sname, sdata in sensors.items():
+                metrics = sdata.get("metrics", {})
+                if metrics:
+                    from core.types import SensorReading, utc_now
+                    reading = SensorReading(
+                        sensor_name=sname,
+                        timestamp=utc_now(),
+                        metrics=metrics,
+                        units=sdata.get("units", {}),
+                    )
+                    break
+
+        context = {
+            "trends": self._engine.get_trends(),
+            "hour": datetime.now().hour if (datetime := __import__("datetime").datetime) else 12,
+        }
+        self._adaptation_manager.run_all(reading, context)
+
+        if args:
+            category = args[0].lower()
+            advisories = self._adaptation_manager.get_advisories_by_category(category)
+        else:
+            advisories = self._adaptation_manager.get_advisories()
+
+        if not advisories:
+            print("No adaptation advisories available.")
+            return
+
+        print(f"{len(advisories)} adaptation advisory/advisories:")
+        for adv in advisories:
+            sev = adv["severity"].upper()
+            print(f"  [{sev}] {adv['module']}: {adv['advisory']}")
+
+    def _handle_warnings(self) -> None:
+        """Show only warning and critical advisories."""
+        if self._adaptation_manager is None:
+            print("Adaptation manager not available.")
+            return
+
+        summary = self._engine.get_summary()
+        reading = None
+        sensors = summary.get("sensors", {})
+        if sensors:
+            for sname, sdata in sensors.items():
+                metrics = sdata.get("metrics", {})
+                if metrics:
+                    from core.types import SensorReading, utc_now
+                    reading = SensorReading(
+                        sensor_name=sname,
+                        timestamp=utc_now(),
+                        metrics=metrics,
+                        units=sdata.get("units", {}),
+                    )
+                    break
+
+        context = {"trends": self._engine.get_trends()}
+        self._adaptation_manager.run_all(reading, context)
+
+        warnings = self._adaptation_manager.get_warnings()
+        if not warnings:
+            print("No warnings or critical advisories. All clear.")
+            return
+
+        print(f"{len(warnings)} warning(s)/critical advisory/advisories:")
+        for adv in warnings:
+            sev = adv["severity"].upper()
+            print(f"  [{sev}] {adv['module']}: {adv['advisory']}")

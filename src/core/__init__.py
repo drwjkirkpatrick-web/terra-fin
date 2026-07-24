@@ -13,6 +13,7 @@ from .config import MainConfig
 from .sensor_base import SensorBase
 from .mock_manager import MockManager
 from .event_bus import EventBus
+from .adaptation_base import AdaptationModule, AdaptationResult
 
 __all__ = [
     "SensorReading",
@@ -26,4 +27,6 @@ __all__ = [
     "SensorBase",
     "MockManager",
     "EventBus",
+    "AdaptationModule",
+    "AdaptationResult",
 ]
