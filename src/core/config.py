@@ -1,4 +1,4 @@
-"""Configuration system for the TerraFin Agent.
+"""Configuration system for the Terra-Fin Agent.
 
 NOTE: All sub-configs use sensible defaults that work in mock mode.
 Hardware-specific fields (ports, addresses, channels) are only used when
@@ -89,9 +89,9 @@ class DashboardConfig:
 
 @dataclass
 class MainConfig:
-    device_name: str = "terrafin-01"
+    device_name: str = "terra-fin-01"
     mode: str = "day"
-    storage_path: str = "data/terrafin.db"
+    storage_path: str = "data/terra-fin.db"
 
     gps: GPSConfig = field(default_factory=GPSConfig)
     soil_moisture: SoilConfig = field(default_factory=SoilConfig)

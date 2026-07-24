@@ -1,4 +1,4 @@
-"""Temperature and humidity sensor (SHT40) driver for the TerraFin Walking Stick.
+"""Temperature and humidity sensor (SHT40) driver for the Terra-Fin Walking Stick.
 
 NOTE: This driver reads a Sensirion SHT40 digital temperature and humidity
 sensor over I2C on a Raspberry Pi Zero. The SHT40 is a small, low-power

@@ -1,4 +1,4 @@
-"""Drought monitor adaptation module for the TerraFin agent.
+"""Drought monitor adaptation module for the Terra-Fin agent.
 
 NOTE: This module is one of ~30 adaptation modules that inherit from
 AdaptationModule. It tracks soil moisture over time, retaining the last 20

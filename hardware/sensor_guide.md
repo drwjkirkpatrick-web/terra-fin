@@ -1,4 +1,4 @@
-# Sensor Placement Guide — TerraFin Walking Stick
+# Sensor Placement Guide — Terra-Fin Walking Stick
 
 > **Goal:** Sensors positioned for accurate readings while keeping the
 > stick lightweight and balanced for walking.

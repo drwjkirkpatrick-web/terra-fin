@@ -7,7 +7,7 @@ macronutrients; over multiple harvests these losses add up and must be
 replaced to avoid soil mining and declining yields.
 
 The per-crop N-P-K removal rates (grams per kilogram of harvested produce)
-used here are rough agronomic estimates for the three crops TerraFin tracks:
+used here are rough agronomic estimates for the three crops Terra-Fin tracks:
 
     avocado : 3 g N, 0.5 g P, 4 g K per kg
     orange  : 2 g N, 0.4 g P, 3 g K per kg

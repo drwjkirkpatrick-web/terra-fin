@@ -1,4 +1,4 @@
-"""Evapotranspiration estimation adaptation module for the TerraFin agent.
+"""Evapotranspiration estimation adaptation module for the Terra-Fin agent.
 
 NOTE: This module estimates daily reference evapotranspiration (ET0) from
 ambient temperature and relative humidity using a simplified empirical
@@ -22,7 +22,7 @@ proper weather station or ET-based irrigation scheduler. Use it as a
 quick triage indicator for the orchestrator and dashboard, not as the sole
 basis for irrigation decisions.
 
-WHY: In smallholder highland-tropical agriculture (the TerraFin context),
+WHY: In smallholder highland-tropical agriculture (the Terra-Fin context),
 irrigation scheduling is often ad-hoc. A timely advisory that says "water
 loss is high today — irrigate" or "water loss is minimal — no need yet"
 gives the farmer a concrete, actionable signal from sensors that are

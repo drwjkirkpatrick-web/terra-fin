@@ -1,4 +1,4 @@
-"""Ambient light sensor driver for the TerraFin Agent.
+"""Ambient light sensor driver for the Terra-Fin Agent.
 
 NOTE: This driver reads an LDR (light-dependent resistor) divider on an
 MCP3008 ADC channel of a Raspberry Pi Zero. The LDR's resistance drops with

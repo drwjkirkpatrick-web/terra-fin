@@ -1,4 +1,4 @@
-"""Solar radiation adaptation module for the TerraFin agent.
+"""Solar radiation adaptation module for the Terra-Fin agent.
 
 NOTE: This module estimates solar radiation from ambient light-sensor lux
 readings using a rough conversion factor (lux × 0.0079 ≈ W/m^2). This is
@@ -8,7 +8,7 @@ conditions. Use it for relative plant-growth assessment (daily light
 integral trends, shade decisions) rather than for quantitative
 energy-balance or PV-yield calculations.
 
-WHY: Most TerraFin deployments carry only a cheap lux sensor (BH1750 or
+WHY: Most Terra-Fin deployments carry only a cheap lux sensor (BH1750 or
 equivalent), not a dedicated pyranometer. Plant-growth decisions still
 need *some* estimate of how much photosynthetically active radiation is
 reaching the canopy, so we derive an approximate W/m^2 figure from the

@@ -1,4 +1,4 @@
-# Project State: TerraFin Agent
+# Project State: Terra-Fin Agent
 
 > **Last updated:** 2026-07-24
 > **Current phase:** build

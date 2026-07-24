@@ -1,4 +1,4 @@
-"""Core type definitions for the TerraFin Agent.
+"""Core type definitions for the Terra-Fin Agent.
 
 NOTE: These dataclasses are the shared contract across all modules — sensors,
 harvest modules, recorder, prompts, and night mode all use these types.

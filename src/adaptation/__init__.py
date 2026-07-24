@@ -1,1 +1,1 @@
-"""Adaptation modules for the TerraFin agent."""
+"""Adaptation modules for the Terra-Fin agent."""

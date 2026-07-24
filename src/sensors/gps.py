@@ -1,4 +1,4 @@
-"""GPS sensor driver for the TerraFin Agent.
+"""GPS sensor driver for the Terra-Fin Agent.
 
 NOTE: Reads NMEA sentences from a serial GPS module (e.g. NEO-6M or similar)
 using pyserial + pynmea2, and falls back to a MockManager-driven random walk

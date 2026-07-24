@@ -15,7 +15,7 @@ by weeks between nearby plots.
 
 APPROXIMATION: The standard GDD formula uses daily max and min temperatures:
     GDD_day = max(0, (T_max + T_min) / 2 - T_base)
-TerraFin sensors typically provide a single instantaneous temperature, not
+Terra-Fin sensors typically provide a single instantaneous temperature, not
 a full daily max/min pair. This module therefore approximates each day's GDD
 using the current reading as a proxy for both max and min:
     GDD_day ≈ max(0, T_current - T_base)

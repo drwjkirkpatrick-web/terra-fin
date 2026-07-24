@@ -1,4 +1,4 @@
-"""Pollinator activity adaptation module for the TerraFin agent.
+"""Pollinator activity adaptation module for the Terra-Fin agent.
 
 NOTE: This module estimates pollinator activity from temperature, light, and
 wind conditions. Pollinators (bees, butterflies, and other insects) are most

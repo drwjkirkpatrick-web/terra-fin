@@ -1,11 +1,11 @@
-"""Humidity comfort adaptation module for the TerraFin agent.
+"""Humidity comfort adaptation module for the Terra-Fin agent.
 
 NOTE: This module assesses ambient relative humidity for two overlapping
 concerns: (1) farmer comfort and safety during field work, and (2) plant
 stress and fungal-disease risk. High humidity promotes fungal pathogens
 (powdery mildew, downy mildew) on leafy greens, while very low humidity
 drives rapid transpiration and plant water stress. The thresholds below
-are tuned for highland-tropical smallholder agronomy (the TerraFin context)
+are tuned for highland-tropical smallholder agronomy (the Terra-Fin context)
 where greens, avocado, and citrus are common crops.
 
 WHY: Humidity is the single most useful leading indicator for fungal

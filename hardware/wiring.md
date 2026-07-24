@@ -1,4 +1,4 @@
-# Wiring Guide — TerraFin Agent
+# Wiring Guide — Terra-Fin Agent
 
 > **Platform:** Raspberry Pi Zero 2 W
 > **Sensors:** 6 sensors across I2C, SPI/ADC, and UART
@@ -142,6 +142,6 @@ spi.close()
 9. [ ] Verify SPI: `ls /dev/spidev0.*`
 10. [ ] Verify GPS: `ls /dev/ttyACM0`
 11. [ ] Install Python deps: `pip install pyyaml`
-12. [ ] Clone project: `git clone <repo> ~/terrafin`
-13. [ ] Run mock test: `cd ~/terrafin && python -m pytest tests/ -v`
+12. [ ] Clone project: `git clone <repo> ~/terra-fin`
+13. [ ] Run mock test: `cd ~/terra-fin && python -m pytest tests/ -v`
 14. [ ] Run agent: `python -m src.main --mock`

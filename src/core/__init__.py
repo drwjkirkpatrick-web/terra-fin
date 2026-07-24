@@ -1,4 +1,4 @@
-"""Core module for the TerraFin Agent."""
+"""Core module for the Terra-Fin Agent."""
 
 from .types import (
     SensorReading,

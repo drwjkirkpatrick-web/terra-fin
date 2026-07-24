@@ -12,7 +12,7 @@ and won't ripen properly); harvesting too late risks overripe fruit, pest
 damage, and quality loss. Smallholder farmers rarely have lab-grade maturity
 testing, but they do know when the crop flowered and can read a cheap soil
 moisture / pH probe. By combining the three signals this module gives a
-reliable go / no-go / wait signal tuned for the crops TerraFin tracks
+reliable go / no-go / wait signal tuned for the crops Terra-Fin tracks
 (avocado, citrus). The per-crop maturity thresholds reflect agronomic
 guidelines: avocado needs ~120 days from flowering, orange ~180 days.
 """

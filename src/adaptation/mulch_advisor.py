@@ -1,4 +1,4 @@
-"""Mulch advisor adaptation module for the TerraFin agent.
+"""Mulch advisor adaptation module for the Terra-Fin agent.
 
 NOTE: This module is one of ~30 adaptation modules that inherit from
 AdaptationModule. It recommends mulching based on soil moisture, soil

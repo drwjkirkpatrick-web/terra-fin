@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 BANNER = """
 ╔══════════════════════════════════════════╗
-║   TerraFin Agent      ║
+║   Terra-Fin Agent      ║
 ║   --- Mock Mode ---                     ║
 ╚══════════════════════════════════════════╝
 """
@@ -79,7 +79,7 @@ class CLI:
         self._running = True
         while self._running:
             try:
-                cmd = input("terrafin> ").strip()
+                cmd = input("terra-fin> ").strip()
                 if cmd:
                     self._dispatch(cmd)
             except (EOFError, KeyboardInterrupt):

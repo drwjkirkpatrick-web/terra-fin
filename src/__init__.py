@@ -1,1 +1,1 @@
-"""Top-level package for the TerraFin Agent."""
+"""Top-level package for the Terra-Fin Agent."""

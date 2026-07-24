@@ -1,4 +1,4 @@
-"""Main orchestrator for the TerraFin Agent.
+"""Main orchestrator for the Terra-Fin Agent.
 
 NOTE: This module wires together all sensors, the engine, recorder,
 event bus, harvest modules, night mode, dashboard, and CLI.
@@ -248,7 +248,7 @@ def main():
     """Entry point for running the agent."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="TerraFin Agent")
+    parser = argparse.ArgumentParser(description="Terra-Fin Agent")
     parser.add_argument("--mock", action="store_true", default=True,
                         help="Run in mock mode (no hardware)")
     parser.add_argument("--config", type=str, default=None,

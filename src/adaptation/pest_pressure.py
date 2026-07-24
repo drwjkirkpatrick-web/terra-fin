@@ -1,4 +1,4 @@
-"""Pest pressure adaptation module for the TerraFin agent.
+"""Pest pressure adaptation module for the Terra-Fin agent.
 
 NOTE: This module is one of ~30 adaptation modules that inherit from
 AdaptationModule. It tracks pest activity likelihood based on temperature,

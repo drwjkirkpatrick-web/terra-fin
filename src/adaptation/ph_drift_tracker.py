@@ -1,4 +1,4 @@
-"""pH drift tracker adaptation module for the TerraFin agent.
+"""pH drift tracker adaptation module for the Terra-Fin agent.
 
 NOTE: This module is one of ~30 adaptation modules that inherit from
 AdaptationModule. It maintains an internal rolling window of the last 20
@@ -13,7 +13,7 @@ direction. By tracking the trend across readings, this module gives an early
 warning before pH leaves the optimal 5.5–7.5 band, letting the farmer apply
 lime (to raise pH) or sulphur / acidifying amendments (to lower pH) in time to
 protect nutrient availability for the staple crops (maize, beans, greens)
-that the TerraFin context targets.
+that the Terra-Fin context targets.
 """
 
 from __future__ import annotations

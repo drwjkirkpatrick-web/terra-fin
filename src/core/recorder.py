@@ -74,7 +74,7 @@ class Recorder:
     Supports both file-based and in-memory databases.
     """
 
-    def __init__(self, db_path: str = "data/terrafin.db") -> None:
+    def __init__(self, db_path: str = "data/terra-fin.db") -> None:
         self._db_path = db_path
         self._lock = threading.RLock()
         self._conn: sqlite3.Connection | None = None

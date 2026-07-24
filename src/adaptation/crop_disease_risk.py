@@ -1,4 +1,4 @@
-"""Crop disease risk adaptation module for the TerraFin agent.
+"""Crop disease risk adaptation module for the Terra-Fin agent.
 
 NOTE: This module is one of ~30 adaptation modules that inherit from
 AdaptationModule. It estimates fungal crop disease risk from ambient
@@ -13,7 +13,7 @@ cheap DHT-style sensor) with an externally-supplied leaf-wetness-hours
 estimate, this module gives the farmer an actionable nudge — improve
 air circulation, reduce overhead watering, scout for early symptoms —
 before an outbreak takes hold. The module is tuned for highland-tropical
-agronomy (avocado, citrus, leafy greens) common in the TerraFin context.
+agronomy (avocado, citrus, leafy greens) common in the Terra-Fin context.
 """
 
 from __future__ import annotations

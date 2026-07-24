@@ -21,7 +21,7 @@ class TestTerraFinAgent:
 
     def test_init(self):
         agent = self._make_agent()
-        assert agent._config.device_name == "terrafin-01"
+        assert agent._config.device_name == "terra-fin-01"
         assert isinstance(agent._event_bus, EventBus)
         assert isinstance(agent._recorder, Recorder)
 

@@ -1,4 +1,4 @@
-"""Soil pH sensor driver for the TerraFin Agent.
+"""Soil pH sensor driver for the Terra-Fin Agent.
 
 NOTE: This driver reads the pH probe attached to the stick tip through an
 MCP3008 ADC. The probe outputs a voltage proportional to pH over the 0-14

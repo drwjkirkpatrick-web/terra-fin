@@ -14,9 +14,9 @@ from core.config import (
 class TestDefaults:
     def test_main_config_defaults(self):
         c = MainConfig()
-        assert c.device_name == "terrafin-01"
+        assert c.device_name == "terra-fin-01"
         assert c.mode == "day"
-        assert c.storage_path == "data/terrafin.db"
+        assert c.storage_path == "data/terra-fin.db"
 
     def test_sub_config_defaults(self):
         c = MainConfig()
@@ -59,7 +59,7 @@ class TestFromEnv:
 
     def test_no_env_returns_defaults(self):
         c = MainConfig.from_env()
-        assert c.device_name == "terrafin-01"
+        assert c.device_name == "terra-fin-01"
 
 
 class TestFromDict:
