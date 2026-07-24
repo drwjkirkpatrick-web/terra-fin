@@ -1,0 +1,58 @@
+# Agricultural Walking Stick Agent — Configuration
+# Copy to config.yaml and edit for your hardware
+
+device_name: agri-stick-01
+mode: day  # day, night, standby
+storage_path: data/agri_stick.db
+
+gps:
+  enabled: true
+  port: /dev/ttyACM0
+  baud: 9600
+  mock_mode: false  # set true for development
+
+soil_moisture:
+  enabled: true
+  adc_channel: 0
+  dry_threshold: 30.0
+  wet_threshold: 70.0
+  probe_depth_cm: 15.0
+  poll_interval_s: 10.0
+  mock_mode: false
+
+soil_ph:
+  enabled: true
+  adc_channel: 1
+  min_pH: 3.0
+  max_pH: 10.0
+  poll_interval_s: 30.0  # pH changes slowly
+  mock_mode: false
+
+temp_humidity:
+  enabled: true
+  i2c_address: 0x44  # SHT40
+  poll_interval_s: 10.0
+  mock_mode: false
+
+light:
+  enabled: true
+  adc_channel: 2
+  night_lux_threshold: 10.0
+  poll_interval_s: 5.0
+  mock_mode: false
+
+imu:
+  enabled: true
+  i2c_address: 0x68  # MPU-6050
+  poll_interval_s: 5.0
+  mock_mode: false
+
+night_mode:
+  enabled: true
+  poll_interval_s: 30.0
+  motion_alert_threshold: 0.5
+  log_only: true  # don't trigger alerts, just log
+
+dashboard:
+  port: 9195
+  host: 0.0.0.0
