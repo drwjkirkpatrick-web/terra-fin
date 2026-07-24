@@ -1,4 +1,4 @@
-# Build Prompts: Agricultural Walking Stick Agent
+# Build Prompts: TerraFin Agent
 
 > **Platform:** Raspberry Pi Zero 2 W on a walking stick
 > **Sensors:** Ground moisture probe (tip), pH probe (tip), GPS (location),
@@ -76,8 +76,8 @@ Create `src/core/config.py` with:
 - `NightModeConfig`: `enabled: bool = True`, `poll_interval_s: float = 30.0`,
   `motion_alert_threshold: float = 0.5`, `log_only: bool = True`
 - `DashboardConfig`: `port: int = 9195`, `host: str = "0.0.0.0"`
-- `MainConfig`: composes all sub-configs + `device_name: str = "agri-stick-01"`,
-  `mode: str = "day"`, `storage_path: str = "data/agri_stick.db"`
+- `MainConfig`: composes all sub-configs + `device_name: str = "terrafin-01"`,
+  `mode: str = "day"`, `storage_path: str = "data/terrafin.db"`
 - `from_yaml(path)` classmethod that reads a YAML file and constructs MainConfig
 - `from_env()` classmethod that reads from environment variables with `AGRI_` prefix
 
@@ -346,7 +346,7 @@ baselines update, thread safety.
 Create `src/core/recorder.py` and `tests/test_recorder.py`.
 
 - `Recorder` class: SQLite persistence for all sensor readings and events
-  - Constructor: `(db_path: str = "data/agri_stick.db")`
+  - Constructor: `(db_path: str = "data/terrafin.db")`
   - `init_db()`: create tables (sensor_readings, harvest_entries, night_events, gps_track)
   - `record_reading(reading: SensorReading)`: insert into sensor_readings
   - `record_harvest(entry: HarvestEntry)`: insert into harvest_entries
@@ -465,7 +465,7 @@ quit handling.
 
 Create `src/main.py` and `tests/test_main.py`.
 
-- `AgriStickAgent` class:
+- `TerraFinAgent` class:
   - Constructor: `(config: MainConfig)` — initializes all sensors, engine,
     recorder, event bus, harvest modules, night mode, dashboard, CLI
   - `start()`: initialize sensors, start recorder, start engine polling,

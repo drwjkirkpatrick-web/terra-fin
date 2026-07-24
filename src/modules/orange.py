@@ -1,4 +1,4 @@
-"""Orange / citrus harvest tracking module for the Agricultural Walking Stick.
+"""Orange / citrus harvest tracking module for the TerraFin Walking Stick.
 
 NOTE: This module mirrors the AvocadoHarvest interface but is tuned for orange
 and citrus crops. It provides SQLite-backed harvest logging, a daily summary,

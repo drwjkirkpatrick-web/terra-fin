@@ -1,4 +1,4 @@
-"""Soil pH sensor driver for the Agricultural Walking Stick Agent.
+"""Soil pH sensor driver for the TerraFin Agent.
 
 NOTE: This driver reads the pH probe attached to the stick tip through an
 MCP3008 ADC. The probe outputs a voltage proportional to pH over the 0-14

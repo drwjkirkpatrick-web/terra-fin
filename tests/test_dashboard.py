@@ -77,7 +77,7 @@ class TestDashboardService:
         try:
             response = urllib.request.urlopen("http://127.0.0.1:9295/")
             html = response.read().decode()
-            assert "Agri Stick Dashboard" in html
+            assert "TerraFin Dashboard" in html
         finally:
             svc.stop()
 

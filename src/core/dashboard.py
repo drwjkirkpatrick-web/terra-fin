@@ -81,7 +81,7 @@ DASHBOARD_HTML = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agri Stick Dashboard</title>
+<title>TerraFin Dashboard</title>
 <style>
 body{font-family:sans-serif;background:#1a1a2e;color:#e0e0e0;margin:0;padding:20px}
 h1{color:#0f3460;border-bottom:2px solid #e94560;padding-bottom:10px}
@@ -96,7 +96,7 @@ h1{color:#0f3460;border-bottom:2px solid #e94560;padding-bottom:10px}
 </style>
 </head>
 <body>
-<h1>🌾 Agri Stick Dashboard</h1>
+<h1>🌾 TerraFin Dashboard</h1>
 <div id="content">Loading...</div>
 <div id="refresh-info">Auto-refresh every 5s</div>
 <script>

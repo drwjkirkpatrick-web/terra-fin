@@ -1,4 +1,4 @@
-"""Main orchestrator for the Agricultural Walking Stick Agent.
+"""Main orchestrator for the TerraFin Agent.
 
 NOTE: This module wires together all sensors, the engine, recorder,
 event bus, harvest modules, night mode, dashboard, and CLI.
@@ -29,7 +29,7 @@ from core.cli import CLI
 logger = logging.getLogger(__name__)
 
 
-class AgriStickAgent:
+class TerraFinAgent:
     """Main orchestrator for the agricultural walking stick agent."""
 
     def __init__(self, config: MainConfig | None = None) -> None:
@@ -127,7 +127,7 @@ class AgriStickAgent:
 
     def start(self) -> None:
         """Start the agent. Initializes all components in order."""
-        logger.info("Starting AgriStickAgent: %s", self._config.device_name)
+        logger.info("Starting TerraFinAgent: %s", self._config.device_name)
 
         # 1. Storage
         self._recorder.init_db()
@@ -153,11 +153,11 @@ class AgriStickAgent:
             self._dashboard.start()
 
         self._running = True
-        logger.info("AgriStickAgent started successfully")
+        logger.info("TerraFinAgent started successfully")
 
     def stop(self) -> None:
         """Stop the agent. Shuts down components in reverse order."""
-        logger.info("Stopping AgriStickAgent")
+        logger.info("Stopping TerraFinAgent")
 
         # 1. Dashboard
         if self._dashboard is not None:
@@ -178,7 +178,7 @@ class AgriStickAgent:
         self._recorder.close()
 
         self._running = False
-        logger.info("AgriStickAgent stopped")
+        logger.info("TerraFinAgent stopped")
 
     def run_cli(self) -> None:
         """Start the agent and enter the CLI loop."""
@@ -241,7 +241,7 @@ def main():
     """Entry point for running the agent."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="Agricultural Walking Stick Agent")
+    parser = argparse.ArgumentParser(description="TerraFin Agent")
     parser.add_argument("--mock", action="store_true", default=True,
                         help="Run in mock mode (no hardware)")
     parser.add_argument("--config", type=str, default=None,
@@ -257,7 +257,7 @@ def main():
     else:
         config = MainConfig()
 
-    agent = AgriStickAgent(config)
+    agent = TerraFinAgent(config)
 
     if args.daemon:
         agent.run_daemon()

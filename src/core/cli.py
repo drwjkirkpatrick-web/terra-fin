@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 BANNER = """
 ╔══════════════════════════════════════════╗
-║   Agricultural Walking Stick Agent      ║
+║   TerraFin Agent      ║
 ║   --- Mock Mode ---                     ║
 ╚══════════════════════════════════════════╝
 """
@@ -71,7 +71,7 @@ class CLI:
         self._running = True
         while self._running:
             try:
-                cmd = input("agri-stick> ").strip()
+                cmd = input("terrafin> ").strip()
                 if cmd:
                     self._dispatch(cmd)
             except (EOFError, KeyboardInterrupt):

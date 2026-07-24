@@ -1,4 +1,4 @@
-"""Core module for the Agricultural Walking Stick Agent."""
+"""Core module for the TerraFin Agent."""
 
 from .types import (
     SensorReading,

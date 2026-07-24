@@ -9,19 +9,19 @@ from core.recorder import Recorder
 from core.event_bus import EventBus
 
 
-class TestAgriStickAgent:
+class TestTerraFinAgent:
     def _make_agent(self):
         # Import here to avoid import errors during collection
-        from main import AgriStickAgent
+        from main import TerraFinAgent
         config = MainConfig()
         config.storage_path = ":memory:"
         config.dashboard.port = 9300 + hash("test") % 100  # avoid port conflicts
-        agent = AgriStickAgent(config)
+        agent = TerraFinAgent(config)
         return agent
 
     def test_init(self):
         agent = self._make_agent()
-        assert agent._config.device_name == "agri-stick-01"
+        assert agent._config.device_name == "terrafin-01"
         assert isinstance(agent._event_bus, EventBus)
         assert isinstance(agent._recorder, Recorder)
 

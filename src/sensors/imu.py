@@ -1,4 +1,4 @@
-"""IMU (MPU-6050) sensor driver for the Agricultural Walking Stick Agent.
+"""IMU (MPU-6050) sensor driver for the TerraFin Agent.
 
 NOTE: This driver reads 3-axis acceleration from an MPU-6050 inertial
 measurement unit over the I2C bus of a Raspberry Pi Zero. The MPU-6050

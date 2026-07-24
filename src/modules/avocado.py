@@ -1,4 +1,4 @@
-"""Avocado harvest tracking module for the Agricultural Walking Stick Agent.
+"""Avocado harvest tracking module for the TerraFin Agent.
 
 NOTE: This module provides the AvocadoHarvest class — a self-contained SQLite
 tracker for avocado harvest entries. It logs each harvest (count, weight,

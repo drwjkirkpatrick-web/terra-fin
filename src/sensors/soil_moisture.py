@@ -1,4 +1,4 @@
-"""Capacitive soil moisture sensor driver for the Agricultural Walking Stick.
+"""Capacitive soil moisture sensor driver for the TerraFin Walking Stick.
 
 NOTE: This driver reads a capacitive soil moisture probe via an MCP3008 ADC
 on the SPI bus of a Raspberry Pi Zero. The probe is wired to a single ADC

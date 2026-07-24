@@ -1,4 +1,4 @@
-# Project State: Agricultural Walking Stick Agent
+# Project State: TerraFin Agent
 
 > **Last updated:** 2026-07-24
 > **Current phase:** build

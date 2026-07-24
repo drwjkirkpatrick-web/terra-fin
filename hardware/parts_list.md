@@ -1,4 +1,4 @@
-# Parts List — Agricultural Walking Stick Agent
+# Parts List — TerraFin Agent
 
 > **Target:** Raspberry Pi Zero 2 W on a walking stick
 > **Goal:** Lightweight enough for a full day in the orchard (< 1 kg electronics)

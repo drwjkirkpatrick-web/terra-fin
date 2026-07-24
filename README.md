@@ -1,4 +1,4 @@
-# Agricultural Walking Stick Agent
+# TerraFin Agent
 
 A lightweight agricultural companion agent on a Raspberry Pi Zero 2 W,
 mounted on a walking stick, accompanying Kenyan farmers through avocado,

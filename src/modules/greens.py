@@ -1,4 +1,4 @@
-"""Local greens harvest tracking module for the Agricultural Walking Stick Agent.
+"""Local greens harvest tracking module for the TerraFin Agent.
 
 NOTE: This module tracks harvests of Kenyan leafy greens — sukuma wiki (kale),
 spinach, and managu (African nightshade). It persists entries to SQLite with a

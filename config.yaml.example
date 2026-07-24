@@ -1,9 +1,9 @@
-# Agricultural Walking Stick Agent — Configuration
+# TerraFin Agent — Configuration
 # Copy to config.yaml and edit for your hardware
 
-device_name: agri-stick-01
+device_name: terrafin-01
 mode: day  # day, night, standby
-storage_path: data/agri_stick.db
+storage_path: data/terrafin.db
 
 gps:
   enabled: true
