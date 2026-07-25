@@ -70,6 +70,30 @@ GPS module (u-blox NEO-M8N) connects via **USB UART adapter** (not GPIO UART):
 - Appears as `/dev/ttyACM0`
 - Baud rate: 9600 (default), can increase to 38400 for faster fixes
 
+> **Note:** If using the SIM7600G-H cellular modem's built-in GNSS
+> receiver instead of the NEO-M8N, GPS data comes from `/dev/ttyUSB1`
+> (the SIM7600's GNSS NMEA port) instead of `/dev/ttyACM0`.
+
+## USB — Cellular Modem
+
+SIMCom SIM7600G-H connects via **USB** (uses the Pi's second micro-USB
+port via an OTG hub or splitter):
+- Plug SIM7600 USB into Pi Zero 2 W micro-USB port (via OTG cable)
+- Appears as multiple serial devices:
+  - `/dev/ttyUSB0` — diagnostic port
+  - `/dev/ttyUSB1` — GNSS NMEA data (if using SIM7600 GNSS)
+  - `/dev/ttyUSB2` — AT command data port (primary — used by the driver)
+  - `/dev/ttyUSB3` — audio (unused)
+- Baud rate: 115200 (default for SIM7600)
+- Antenna: U.FL pigtail from modem to shark-fin enclosure on stick top
+- Power: 5V USB (draws ~200 mA idle, ~500 mA peaks during TX)
+- SIM card: Inserted into on-module SIM slot (Safaricom/Airtel Kenya)
+
+> **Power note:** The SIM7600 can draw up to 2A bursts during transmission.
+> If the Pi Zero's USB power is insufficient, power the modem from a
+> dedicated 5V/2A USB port on the power bank (use a USB hub or splitter).
+> The Pi Zero 2 W cannot back-power the modem from its GPIO 5V pin.
+
 ## Power
 
 | Component | Power Source | Notes |
@@ -81,6 +105,7 @@ GPS module (u-blox NEO-M8N) connects via **USB UART adapter** (not GPIO UART):
 | Soil moisture | 3.3V from Pi header | 5 mA active |
 | pH sensor | 3.3V from Pi header | 5-10 mA active |
 | GPS | 3.3V (on module) via USB | 25-67 mA active |
+| Cellular (SIM7600) | 5V USB (dedicated or shared) | 200 mA idle, ~500 mA TX peaks |
 
 ## config.txt Settings
 
@@ -118,6 +143,14 @@ ls /dev/ttyACM*
 # Test GPS
 cgps -s /dev/ttyACM0
 
+# Check cellular modem
+ls /dev/ttyUSB*
+# Should show: /dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3
+
+# Test cellular (AT command — should respond OK)
+echo -e "AT\r\n" > /dev/ttyUSB2 && cat /dev/ttyUSB2
+# Or use picocom: picocom -b 115200 /dev/ttyUSB2
+
 # Read ADC (quick test)
 python3 -c "
 import spidev
@@ -141,7 +174,8 @@ spi.close()
 8. [ ] Verify I2C: `sudo i2cdetect -y 1`
 9. [ ] Verify SPI: `ls /dev/spidev0.*`
 10. [ ] Verify GPS: `ls /dev/ttyACM0`
-11. [ ] Install Python deps: `pip install pyyaml`
-12. [ ] Clone project: `git clone <repo> ~/terra-fin`
-13. [ ] Run mock test: `cd ~/terra-fin && python -m pytest tests/ -v`
-14. [ ] Run agent: `python -m src.main --mock`
+11. [ ] Verify cellular: `ls /dev/ttyUSB*` (should show ttyUSB0-3)
+12. [ ] Install Python deps: `pip install pyyaml`
+13. [ ] Clone project: `git clone <repo> ~/terra-fin`
+14. [ ] Run mock test: `cd ~/terra-fin && python -m pytest tests/ -v`
+15. [ ] Run agent: `python -m src.main --mock`

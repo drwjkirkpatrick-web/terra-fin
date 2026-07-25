@@ -17,7 +17,7 @@
 
 ## Sensors
 
-| Component | Model/Part # | Qty | Budget Price | Rec Price | Interface | Purpose |
+|| Component | Model/Part # | Qty | Budget Price | Rec Price | Interface | Purpose |
 |-----------|-------------|-----|-------------|-----------|-----------|---------|
 | Soil Moisture | Capacitive Soil Moisture Sensor v1.2 | 1 | $3 | $5 | ADC (MCP3008 ch 0) | Ground moisture at stick tip |
 | Soil pH | Analog pH Sensor Kit (Atlas Scientific) | 1 | $40 | $85 | ADC (MCP3008 ch 1) | Soil pH at stick tip |
@@ -26,6 +26,14 @@
 | Light | LDR (GL5528) + resistor | 1 | $1 | $2 | ADC (MCP3008 ch 2) | Day/night detection |
 | IMU | MPU-6050 breakout | 1 | $3 | $5 | I2C 0x68 | Motion / orientation |
 | ADC | MCP3008 | 1 | $3 | $5 | SPI | Analog-to-digital for moisture/pH/light |
+| **Cellular Modem** | **SIMCom SIM7600G-H** | **1** | **$15** | **$30** | **USB UART** | **4G LTE modem for telemetry upload** |
+| **Cellular Antenna** | **LTE patch (Taoglas or generic)** | **1** | **$2** | **$10** | **U.FL → fin** | **Primary cellular antenna in shark fin** |
+| **GNSS Patch (opt)** | **u-blox ANN-MB or generic** | **1** | **$2** | **$12** | **U.FL → fin** | **GNSS antenna in shark fin (if using SIM7600 GNSS)** |
+
+> **Note:** If using the SIM7600G-H's built-in GNSS receiver, the separate
+> NEO-M8N GPS module above can be omitted. The GNSS patch antenna in the
+> shark fin then feeds both cellular and GPS through the single SIM7600
+> USB connection. See `hardware/shark_fin_antenna.md` for details.
 
 ## Power & Wiring
 
@@ -49,25 +57,29 @@
 
 ## Total Weight Estimate
 
-| Item | Weight (g) |
+|| Item | Weight (g) |
 |------|-----------|
 | Pi Zero 2 W | 8 |
 | SD card | 2 |
 | Power bank (10,000 mAh) | 180 |
 | All sensors + ADC | 35 |
+| Cellular modem (SIM7600) | 25 |
+| Shark-fin enclosure + antennas | 38 |
 | Wiring + protoboard | 20 |
 | Enclosure | 25 |
-| **Total electronics** | **~270 g** |
+| **Total electronics** | **~333 g** |
 
 Well under the 1 kg target. The walking stick itself (wood, ~400-600 g)
 brings the total to under 1 kg.
 
 ## Total Cost Estimate
 
-| Tier | Total |
+|| Tier | Total |
 |------|-------|
-| Budget (all budget parts) | ~$91 |
-| Recommended (all rec parts) | ~$193 |
+| Budget (all budget parts, with cellular) | ~$109 |
+| Recommended (all rec parts, with cellular) | ~$243 |
+| Budget (cellular only, no separate GPS) | ~$101 |
+| Recommended (cellular only, no separate GPS) | ~$230 |
 
 ## Notes
 

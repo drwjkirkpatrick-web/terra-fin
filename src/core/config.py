@@ -65,6 +65,26 @@ class IMUConfig(SensorConfig):
     i2c_address: int = 0x68  # MPU-6050
 
 
+@dataclass
+class CellularConfig(SensorConfig):
+    """Config for the cellular modem / shark-fin antenna module.
+
+    NOTE: The modem communicates over a serial UART (USB or GPIO) using
+    AT commands.  poll_interval_s here governs how often we poll signal
+    quality and network registration status — actual data uploads are
+    event-driven (harvest log, night-mode alerts) and not bound to this
+    interval.
+    """
+    port: str = "/dev/ttyUSB2"        # SIM7600/SIM7000 default USB-serial
+    baud: int = 115200                 # SIM7600 default; SIM7000 also supports 9600
+    apn: str = "safaricom"             # Kenyan MNO APN (Safaricom default)
+    model: str = "SIM7600G-H"          # SIMCom 4G/LTE-Cat-1 module w/ GNSS
+    signal_warn_dbm: float = -90.0     # below this → "weak" classification
+    signal_good_dbm: float = -70.0     # at/above this → "strong" classification
+    upload_enabled: bool = False       # off by default — data costs money
+    upload_interval_s: float = 3600.0  # hourly telemetry upload when enabled
+
+
 # ---------------------------------------------------------------------------
 # Feature configs
 # ---------------------------------------------------------------------------
@@ -99,6 +119,7 @@ class MainConfig:
     temp_humidity: TempHumidityConfig = field(default_factory=TempHumidityConfig)
     light: LightConfig = field(default_factory=LightConfig)
     imu: IMUConfig = field(default_factory=IMUConfig)
+    cellular: CellularConfig = field(default_factory=CellularConfig)
     night_mode: NightModeConfig = field(default_factory=NightModeConfig)
     dashboard: DashboardConfig = field(default_factory=DashboardConfig)
 
@@ -126,7 +147,7 @@ class MainConfig:
             env_val = os.environ.get(env_key)
             if env_val is not None:
                 if f.name in ("gps", "soil_moisture", "soil_ph", "temp_humidity",
-                              "light", "imu", "night_mode", "dashboard"):
+                              "light", "imu", "cellular", "night_mode", "dashboard"):
                     continue  # sub-configs handled below
                 if f.type is bool or f.type == "bool":
                     kwargs[f.name] = env_val.lower() in ("true", "1", "yes")
@@ -145,6 +166,7 @@ class MainConfig:
             "temp_humidity": TempHumidityConfig,
             "light": LightConfig,
             "imu": IMUConfig,
+            "cellular": CellularConfig,
             "night_mode": NightModeConfig,
             "dashboard": DashboardConfig,
         }
@@ -183,6 +205,7 @@ class MainConfig:
             "temp_humidity": TempHumidityConfig,
             "light": LightConfig,
             "imu": IMUConfig,
+            "cellular": CellularConfig,
             "night_mode": NightModeConfig,
             "dashboard": DashboardConfig,
         }

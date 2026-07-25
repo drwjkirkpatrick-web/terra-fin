@@ -8,7 +8,7 @@
 
 ## 1. Goal (1–2 sentences)
 
-A lightweight agricultural companion agent on a Raspberry Pi Zero 2 W attached to a walking stick, accompanying Kenyan farmers through avocado, orange, and local greens harvests with soil sensors, GPS, weather, and night-mode security.
+A lightweight agricultural companion agent on a Raspberry Pi Zero 2 W attached to a walking stick, accompanying Kenyan farmers through avocado, orange, and local greens harvests with soil sensors, GPS, weather, cellular telemetry, and night-mode security.
 
 ## 2. Current Status
 
@@ -23,15 +23,20 @@ A lightweight agricultural companion agent on a Raspberry Pi Zero 2 W attached t
 - [x] Phase 4: Prompts + Night Mode
 - [x] Phase 5: Dashboard + CLI
 - [x] Phase 6: Main orchestrator + hardware docs
-- [x] Full test suite passing
+- [x] Full test suite passing (613 tests)
 - [x] README written
-- [x] Committed locally (not pushed — waiting for GitHub auth)
+- [x] Cellular module: CellularConfig, CellularSensor driver, 38 tests
+- [x] Shark-fin antenna enclosure design doc
+- [x] Hardware docs updated (parts_list, stick_design, wiring, sensor_guide)
+- [x] Committed locally
 
 ### In Progress
-- [ ] Awaiting user authentication to push to GitHub
+- [ ] Push to GitHub origin main
 
 ### Not Started
-- [ ] GitHub repo creation + first push (blocked on auth)
+- [ ] Shark-fin 3D model (OpenSCAD parametric file)
+- [ ] CLI `signal` command implementation (handler in prompts.py)
+- [ ] Upload integration (event-driven data sync via cellular)
 
 ## 3. Architecture & Key Decisions
 
@@ -44,16 +49,19 @@ A lightweight agricultural companion agent on a Raspberry Pi Zero 2 W attached t
 | Night mode as sentinel daemon | Stationary stick records motion, GPS, environmental data at night | 2026-07-24 |
 | SQLite for all persistence | Zero-config, stdlib, sufficient for single-device logging | 2026-07-24 |
 | EventBus (threading-based) | No asyncio dependency, simpler on Pi Zero | 2026-07-24 |
+| SIM7600G-H cellular modem | 4G LTE Cat-1, built-in GNSS, USB serial, AT commands, Kenya-compatible | 2026-07-24 |
+| Shark-fin antenna enclosure | Omnidirectional, sky-facing, snag-resistant, houses LTE + GNSS antennas | 2026-07-24 |
 
 ## 4. Blockers & Risks
 
-- **Blocker:** GitHub authentication needed before push → User will authenticate
 - **Risk:** Sensor calibration curves are approximations → Documented in code, user can refine with real hardware data
 - **Risk:** Night mode motion classification is threshold-based → Clearly documented as approximate, not a security system
+- **Risk:** SIM7600 power draw (500 mA TX peaks) may exceed Pi Zero USB → Dedicated USB port from power bank recommended
+- **Risk:** Cellular data costs money → upload_enabled defaults to False; user opts in
 
 ## 5. Next Step
 
-> **Next:** Wait for user to authenticate, then create GitHub repo and push.
+> **Next:** Push to GitHub origin main. Then implement `signal` CLI command and event-driven upload integration.
 
 ## 6. Environment & Tooling Notes
 
@@ -66,8 +74,10 @@ A lightweight agricultural companion agent on a Raspberry Pi Zero 2 W attached t
 ## 7. Recent Session Log
 
 - 2026-07-24: Project created, all phases built, tests passing, committed locally
+- 2026-07-24: Cellular module + shark-fin antenna added, 613 tests passing
 
 ## 8. References
 
 - Build prompts: `PROMPTS.md`
 - Hardware docs: `hardware/`
+- Shark-fin antenna design: `hardware/shark_fin_antenna.md`

@@ -8,9 +8,13 @@
 ## Stick Layout (top to bottom)
 
 ```
+    [SHARK FIN] — cellular + GNSS antennas (top of stick)
+       |          3D-printed PETG, 60x25x35mm
+       |          U.FL pigtails run down through shaft
     [HANDLE] — grip area (no electronics)
        |
     [GPS ANTENNA] — upper third, faces sky
+       |          (only if using separate NEO-M8N, not SIM7600 GNSS)
        |
     [PROJECT BOX] — Pi Zero 2 W + power bank + ADC
        |            mounted on shaft with velcro
@@ -34,6 +38,37 @@
 - **Mounting:** Small project box velcro'd to shaft, USB cable running inside
   or along the shaft to the Pi.
 - **Cable:** USB OTG cable from GPS to Pi micro-USB port.
+- **Note:** If using the SIM7600G-H cellular modem with its built-in
+  GNSS receiver, the NEO-M8N can be omitted. The GNSS patch antenna in
+  the shark fin feeds GPS data to the SIM7600, which provides both
+  cellular and GPS over a single USB connection.
+
+### Cellular Modem (SIM7600G-H)
+- **Position:** Inside the main project box (mid-shaft) alongside the Pi
+- **Why:** The modem needs to be near the Pi for USB connection, but the
+  antenna is in the shark fin at the top of the stick. U.FL pigtails
+  (10-15 cm) connect modem to antenna through the stick shaft.
+- **Mounting:** Inside the project box, secured with double-sided tape or
+  a 3D-printed bracket. Keep the modem away from the GPS/IMU to minimize
+  RF interference.
+- **Cable:** USB OTG cable from modem to Pi micro-USB port (second port).
+  U.FL pigtails from modem ANT_MAIN to shark-fin cellular antenna, and
+  from modem GNSS_ANT to shark-fin GNSS antenna (if using).
+- **Power:** 5V USB. If using a dedicated USB port on the power bank
+  (recommended), run a separate USB cable.
+- **SIM card:** Inserted into the on-module SIM slot before enclosure.
+
+### Shark-Fin Antenna Enclosure
+- **Position:** Very top of the stick — the highest point when upright
+- **Why:** Maximum sky coverage for cellular towers and GNSS satellites.
+  The fin shape is omnidirectional, snag-resistant, and weatherproof.
+- **Contents:** Cellular LTE patch antenna (bottom layer) + optional
+  GNSS patch antenna (top layer, separated by foam spacer)
+- **Cable:** U.FL pigtails route down through the stick shaft (hollow
+  stick or drilled channel) to the SIM7600 modem in the project box
+- **Mounting:** Threaded cap (recommended), adhesive, or set-screw collar
+- **Waterproofing:** IP65 equivalent — silicone-sealed base, weep hole
+  for condensation drainage. See `hardware/shark_fin_antenna.md`.
 
 ### SHT40 (Temperature/Humidity)
 - **Position:** Inside the main project box on the shaft
@@ -85,15 +120,18 @@
 
 ## Weight Distribution
 
-| Position | Component | Weight (g) |
+|| Position | Component | Weight (g) |
 |----------|-----------|-----------|
-| Upper shaft | GPS + box | ~40 |
-| Mid shaft | Pi + power bank + ADC + I2C | ~240 |
+| Top of stick | Shark-fin enclosure + antennas | ~38 |
+| Upper shaft | GPS + box (if separate NEO-M8N) | ~40 |
+| Mid shaft | Pi + power bank + ADC + I2C + cellular modem | ~265 |
 | Tip | Soil moisture + pH probe | ~25 |
-| **Total** | | **~305 g** |
+| **Total** | | **~368 g** |
 
 The mid-shaft placement of the power bank (heaviest item) keeps the
 center of gravity near the farmer's hand, making the stick easy to carry.
+The shark fin at the top adds only 38 g — not enough to make the stick
+top-heavy.
 
 ## Waterproofing
 

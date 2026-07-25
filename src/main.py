@@ -65,6 +65,8 @@ class TerraFinAgent:
              self._config.light),
             ("imu", "sensors.imu", "IMUSensor",
              self._config.imu),
+            ("cellular", "sensors.cellular", "CellularSensor",
+             self._config.cellular),
         ]
 
         for name, module_path, class_name, sensor_config in sensor_specs:

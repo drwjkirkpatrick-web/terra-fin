@@ -38,6 +38,20 @@
 - Size: 30 x 20 x 15 mm (just the GPS module)
 - Mounting: Velcro, antenna facing up
 - Position: Upper third of stick for sky visibility
+- **Note:** When using the SIM7600 cellular modem with its built-in
+  GNSS receiver, this separate GPS box is replaced by the shark-fin
+  antenna enclosure on top of the stick (see below). The SIM7600
+  provides both cellular and GPS over a single USB connection, and
+  its GNSS patch antenna lives inside the shark fin.
+
+**Shark-fin antenna enclosure** (top of stick):
+- Size: 60 x 25 x 35 mm (fin shape, 3D-printed PETG)
+- Mounting: Threaded cap, adhesive, or set-screw collar on stick top
+- Position: Very top of stick — highest point for maximum sky coverage
+- Contents: Cellular LTE patch antenna + optional GNSS patch antenna
+- Cable: U.FL pigtails route down through the stick shaft to the
+  SIM7600 modem in the mid-shaft project box
+- See `hardware/shark_fin_antenna.md` for full design details
 
 ## Probe Tip Design
 
@@ -79,21 +93,23 @@ The bottom 20 cm of the stick is a detachable probe section:
 
 ## Weight Budget
 
-| Component | Weight (g) |
+|| Component | Weight (g) |
 |-----------|-----------|
 | Wooden stick (130 cm) | 500 |
 | Pi Zero 2 W + SD card | 10 |
 | Power bank (10,000 mAh) | 180 |
-| GPS module | 10 |
+| GPS module (if separate NEO-M8N) | 10 |
+| Cellular modem (SIM7600) | 25 |
 | Sensors (SHT40, MPU-6050, MCP3008) | 15 |
 | Soil moisture + pH probe | 25 |
 | Wiring + connectors | 20 |
 | Project boxes (2) | 40 |
+| Shark-fin antenna enclosure | 38 |
 | Mounting hardware | 15 |
-| **Total** | **~815 g** |
+| **Total** | **~878 g** |
 
 Well under 1 kg. A typical wooden walking stick weighs 400-600 g,
-so the total weight (1.2-1.4 kg) is reasonable for a day in the orchard.
+so the total weight (1.3-1.5 kg) is reasonable for a day in the orchard.
 
 ## Balance
 

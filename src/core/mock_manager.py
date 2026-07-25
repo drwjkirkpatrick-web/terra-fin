@@ -29,6 +29,9 @@ _DEFAULT_BASELINES: dict[str, float] = {
     "accel_x": 0.0,
     "accel_y": 0.0,
     "accel_z": 9.81,
+    # Cellular modem mock baselines
+    "cellular_rssi_dbm": -75.0,       # decent 4G signal in mock
+    "cellular_ber_pct": 0.5,          # low bit error rate
 }
 
 # Metrics that follow a diurnal (time-of-day) cycle

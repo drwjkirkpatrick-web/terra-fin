@@ -10,6 +10,7 @@ orange, and local greens harvests.
 - **Location tracking:** GPS for harvest mapping and walking distance
 - **Weather awareness:** Temperature, humidity, and ambient light
 - **Motion detection:** IMU for walking vs stationary detection
+- **Cellular telemetry:** 4G LTE modem with shark-fin antenna for field data upload
 - **Harvest logging:** Track count, weight, and location for each crop
 - **Night sentinel:** When the stick is stationary at night, it monitors for
   motion and logs environmental data
@@ -21,10 +22,11 @@ orange, and local greens harvests.
 
 - **Platform:** Raspberry Pi Zero 2 W
 - **Sensors:** Capacitive soil moisture, pH probe, GPS (NEO-M8N), SHT40
-  (temp/humidity), LDR (light), MPU-6050 (IMU)
+  (temp/humidity), LDR (light), MPU-6050 (IMU), SIM7600G-H cellular modem
+- **Antenna:** Shark-fin enclosure (3D-printed PETG) with LTE + GNSS patch antennas
 - **Power:** 10,000 mAh USB power bank (~25-40 hours runtime)
-- **Weight:** ~815 g electronics, ~1.4 kg total with stick
-- **Cost:** ~$91 budget / ~$193 recommended
+- **Weight:** ~878 g electronics, ~1.4 kg total with stick
+- **Cost:** ~$109 budget / ~$243 recommended
 
 See `hardware/` for full parts list, wiring guide, sensor placement,
 and stick design notes.
@@ -51,6 +53,7 @@ src/
 │   ├── temp_humidity.py  # SHT40 (I2C)
 │   ├── light_sensor.py   # LDR (ADC)
 │   └── imu.py            # MPU-6050 (I2C)
+│   └── cellular.py       # SIM7600 cellular modem (USB UART, AT commands)
 ├── modules/
 │   ├── avocado.py        # Avocado harvest tracking + quality assessment
 │   ├── orange.py         # Orange harvest tracking + Brix estimate
@@ -132,6 +135,7 @@ python -m src.main --config config.yaml
 soil         - Show soil moisture and pH status
 weather      - Show temperature, humidity, and light
 location     - Show GPS location
+signal       - Show cellular signal strength and network status
 daynight     - Show day/night status
 walk         - Show walking summary
 harvest <crop> <count> <weight_kg> [tree_id] - Log a harvest
@@ -150,15 +154,16 @@ quit         - Exit
 
 ## Testing
 
-All 575 tests run in mock mode — no hardware required:
+All 613 tests run in mock mode — no hardware required:
 
 ```bash
 python -m pytest tests/ -v
 ```
 
 Test categories: types, config, sensor base, mock manager, event bus,
-6 sensor drivers, 3 harvest modules, engine, recorder, prompts, night mode,
-dashboard, CLI, and main orchestrator.
+7 sensor drivers (incl. cellular), 3 harvest modules, engine, recorder,
+prompts, night mode, dashboard, CLI, main orchestrator, and 30 adaptation
+modules.
 
 ## Design Principles
 
