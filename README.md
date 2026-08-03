@@ -1,8 +1,9 @@
 # Terra-Fin Agent
 
-A lightweight agricultural companion agent on a Raspberry Pi Zero 2 W,
-mounted on a walking stick, accompanying Kenyan farmers through avocado,
-orange, and local greens harvests.
+A lightweight agricultural companion agent mounted on a walking stick,
+accompanying Kenyan farmers through avocado, orange, and local greens
+harvests. Runs on either a **Raspberry Pi Zero 2 W** (CPython) or an
+**ESP32** (MicroPython) — your choice of platform.
 
 ## What It Does
 
@@ -18,20 +19,66 @@ orange, and local greens harvests.
   help the farmer respond to changing conditions
 - **Dashboard:** Simple web interface accessible from a phone on local WiFi
 
+## Two Platforms, One Codebase
+
+The project ships in two parallel implementations sharing the same
+architecture and business logic:
+
+| | Raspberry Pi Zero 2 W | ESP32 |
+|---|---|---|
+| **Language** | Python 3.10+ | MicroPython v1.23+ |
+| **Location** | `src/` | `esp32/lib/` |
+| **Persistence** | SQLite3 | JSON / JSONL files |
+| **Threading** | `threading` (RLock, Thread) | `_thread` (allocate_lock) |
+| **Hardware I/O** | RPi.GPIO, Adafruit CircuitPython | `machine` module (ADC, I2C, UART) |
+| **GPS parsing** | pynmea2 | Manual NMEA parser |
+| **Tests** | 613 (pytest) | 77 (unittest + fake\_machine) |
+| **Cost** | ~$109 budget / ~$243 recommended | ~$43 |
+| **Runtime** | ~25–40 h (10,000 mAh bank) | ~40+ h (18650 cell) |
+
+Both platforms are **mock-safe** — every sensor falls back to mock data
+when hardware is absent, so you can develop and test on any computer.
+
+### Which should I use?
+
+- **Pi Zero 2 W** — more compute headroom, easier to debug over SSH,
+  standard Python ecosystem (pip, pytest), WiFi built in. Best for
+  development and when you need the full dashboard + CLI on-device.
+- **ESP32** — lower cost ($43 vs $109+), lower power, smaller footprint,
+  no OS overhead. Best for production deployment where cost per unit
+  matters (e.g. deploying across multiple farms).
+
 ## Hardware
 
-- **Platform:** Raspberry Pi Zero 2 W
-- **Sensors:** Capacitive soil moisture, pH probe, GPS (NEO-M8N), SHT40
-  (temp/humidity), LDR (light), MPU-6050 (IMU), SIM7600G-H cellular modem
-- **Antenna:** Shark-fin enclosure (3D-printed PETG) with LTE + GNSS patch antennas
-- **Power:** 10,000 mAh USB power bank (~25-40 hours runtime)
-- **Weight:** ~878 g electronics, ~1.4 kg total with stick
-- **Cost:** ~$109 budget / ~$243 recommended
+### Common Sensors (both platforms)
 
-See `hardware/` for full parts list, wiring guide, sensor placement,
-and stick design notes.
+- Capacitive soil moisture probe (ADC)
+- pH probe (ADC)
+- GPS module (NEO-6M / NEO-M8N)
+- SHT40 temperature/humidity (I2C)
+- Light sensor (LDR or BH1750, ADC)
+- MPU-6050 IMU (I2C)
+- SIM7600G-H cellular modem (UART)
+
+### Pi Zero 2 W Specifics
+
+- **Antenna:** Shark-fin enclosure (3D-printed PETG) with LTE + GNSS patch antennas
+- **Power:** 10,000 mAh USB power bank (~25–40 hours runtime)
+- **Weight:** ~878 g electronics, ~1.4 kg total with stick
+- See `hardware/` for full parts list, wiring guide, sensor placement,
+  and stick design notes.
+
+### ESP32 Specifics
+
+- **ADC:** GPIO32 (moisture), GPIO33 (pH), GPIO34 (light) — ADC1 only
+- **I2C:** SDA=GPIO21, SCL=GPIO22 (shared SHT40 + MPU-6050)
+- **UART:** GPS on UART2 (GPIO16/17), Cellular on UART1 (GPIO9/10)
+- **Power:** Single 18650 cell (~40+ hours)
+- See `esp32/README.md` for pinout table, BOM, and flash instructions.
 
 ## Software Architecture
+
+### Pi Zero (src/)
 
 ```
 src/
@@ -52,7 +99,7 @@ src/
 │   ├── gps.py            # GPS module (USB UART)
 │   ├── temp_humidity.py  # SHT40 (I2C)
 │   ├── light_sensor.py   # LDR (ADC)
-│   └── imu.py            # MPU-6050 (I2C)
+│   ├── imu.py            # MPU-6050 (I2C)
 │   └── cellular.py       # SIM7600 cellular modem (USB UART, AT commands)
 ├── modules/
 │   ├── avocado.py        # Avocado harvest tracking + quality assessment
@@ -93,21 +140,49 @@ src/
 └── main.py               # Orchestrator (lifecycle management)
 ```
 
+### ESP32 (esp32/lib/)
+
+Same architecture, adapted for MicroPython:
+
+```
+esp32/
+├── main.py              # Top-level entry point (flash to ESP32 root)
+├── README.md            # ESP32 pinout, BOM, flash instructions
+├── lib/
+│   ├── main.py          # TerraFinAgent bootstrap + main loop
+│   ├── core/            # types, config, engine, recorder (JSONL),
+│   │                    # event_bus, adaptation_base, adaptation_manager,
+│   │                    # prompts, cli, dashboard, mock_manager, sensor_base
+│   ├── sensors/         # 7 drivers using machine.ADC/I2C/UART/Pin
+│   ├── modules/         # avocado, orange, greens (JSON), night_mode
+│   └── adaptation/      # 30 modules (same logic, no type annotations)
+└── tests/
+    ├── fake_machine.py  # Mock MicroPython `machine` module for CPython
+    └── test_port.py     # 77 tests (all green)
+```
+
+Key differences from the Pi version: no `sqlite3` (JSON/JSONL persistence),
+no `threading` (uses `_thread`), no `datetime` (uses `time.gmtime`),
+no `deque` (plain lists), no `pathlib` (string paths), no type annotations.
+
 ## Quick Start
 
 ### Development (no hardware needed)
 
 ```bash
-# Run the test suite (575 tests, all mock-mode)
+# Pi version — run the test suite (613 tests, all mock-mode)
 python -m pytest tests/ -v
 
-# Start the CLI in mock mode
+# ESP32 version — run the test suite (77 tests)
+cd esp32 && python -m pytest tests/test_port.py -v
+
+# Pi — start the CLI in mock mode
 python -m src.main --mock
 
-# Start the dashboard
+# Pi — start the dashboard
 python -m src.main --mock --dashboard
 
-# Run as a daemon
+# Pi — run as a daemon
 python -m src.main --mock --daemon
 ```
 
@@ -128,6 +203,23 @@ ls /dev/ttyACM0       # Should show GPS
 # Run with real hardware
 python -m src.main --config config.yaml
 ```
+
+### On the ESP32
+
+```bash
+# Install MicroPython (v1.23+)
+esptool.py --port /dev/ttyUSB0 erase_flash
+esptool.py --port /dev/ttyUSB0 write_flash 0x0 esp32-20240602-v1.23.0.bin
+
+# Copy files
+mpremote cp -r lib/ :/lib/
+mpremote cp main.py :/main.py
+
+# Create data directory and reboot
+mpremote mkdir /flash/data/terra-fin
+```
+
+See `esp32/README.md` for full pinout, BOM, and wiring details.
 
 ## CLI Commands
 
@@ -154,7 +246,7 @@ quit         - Exit
 
 ## Testing
 
-All 613 tests run in mock mode — no hardware required:
+### Pi version — 613 tests (all mock-mode, no hardware required)
 
 ```bash
 python -m pytest tests/ -v
@@ -165,14 +257,27 @@ Test categories: types, config, sensor base, mock manager, event bus,
 prompts, night mode, dashboard, CLI, main orchestrator, and 30 adaptation
 modules.
 
+### ESP32 version — 77 tests (CPython with fake\_machine stubs)
+
+```bash
+cd esp32 && python -m pytest tests/test_port.py -v
+```
+
+Tests cover all core modules, 7 sensors (via fake\_machine), 10
+representative adaptation modules, 3 harvest modules (JSON persistence),
+night mode, and MicroPython compatibility checks (no `__future__`,
+no `sqlite3`, all files compile).
+
 ## Design Principles
 
 - **Mock-safe:** Every sensor runs in mock mode with no hardware attached
-- **No LLM dependency:** Deterministic prompt handlers — works on Pi Zero
+- **No LLM dependency:** Deterministic prompt handlers — works on Pi Zero and ESP32
 - **Non-alarmist framing:** Awareness tool, not a medical or security instrument
 - **Lightweight:** Stdlib-only dashboard, no external web framework required
-- **Thread-safe:** All shared state uses RLock, no asyncio complexity
+- **Thread-safe:** All shared state uses locks (RLock on Pi, allocate\_lock on ESP32)
 - **One agent per file:** Each module was written by a single author
+- **Same logic, two targets:** Business logic is identical across platforms;
+  only the I/O and persistence layers differ
 
 ## License
 
